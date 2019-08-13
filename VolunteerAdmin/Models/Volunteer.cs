@@ -22,7 +22,7 @@ namespace VolunteerAdmin.Models
         public string EmergencyAddress { get; set; }
         public bool DLCopyOnFile { get; set; }
         public bool SSCopyOnFile { get; set; }
-        public bool Approved { get; set; }
+        public bool? Approved { get; set; }
 
         public ICollection<License> Licenses { get; set; }
         public ICollection<Center> Centers { get; set; }

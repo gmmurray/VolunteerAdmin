@@ -12,7 +12,8 @@ namespace VolunteerAdmin.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Volunteers");
+            //return View();
         }
 
         public IActionResult Privacy()
