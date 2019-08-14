@@ -1,5 +1,6 @@
 ﻿@model VolunteerAdmin.Models.Volunteer
 
+ 
 @{
     ViewData["Title"] = "Details";
 }
@@ -118,13 +119,34 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Approved)
         </dd>
-        <dt class="col-sm-2">
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AvailableTimes)
         </dt>
         <dd class="col-sm-10">
             @foreach (var item in Model.AvailableTimes)
             {
                 @Html.DisplayFor(modelItem => item.Time)
+            }
+        </dd>
+        <dt class="co-sm-10">
+            @Html.DisplayNameFor(model => model.Assignments)
+        </dt>*@
+        <dt class="col-sm-10">
+        Assigned Opportunities
+        </dt>
+        <dd class="col-sm-10">
+            @foreach(var item in Model.Assignments)
+            {
+                @Html.DisplayFor(modelItem => item.Opportunity.OpportunityName)
+            }
+        </dd>
+        <dt class="col-sm-10">
+            Opportunity Description
+        </dt>
+        <dd class="col-sm-10">
+            @foreach(var Item in Model.Assignments)
+            {
+                @Html.DisplayFor(modelItem => Item.Opportunity.Description)
             }
         </dd>
     </dl>

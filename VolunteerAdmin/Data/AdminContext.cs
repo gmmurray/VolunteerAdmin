@@ -18,6 +18,8 @@ namespace VolunteerAdmin.Data
         public DbSet<Center> Centers { get; set; }
         public DbSet<License> Licenses { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Opportunity> Opportunities { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +28,8 @@ namespace VolunteerAdmin.Data
             modelBuilder.Entity<Center>().ToTable("Center");
             modelBuilder.Entity<License>().ToTable("License");
             modelBuilder.Entity<Skill>().ToTable("Skill");
+            modelBuilder.Entity<Opportunity>().ToTable("Opportunity");
+            modelBuilder.Entity<Assignment>().ToTable("Assignment");
         }
     }
 }

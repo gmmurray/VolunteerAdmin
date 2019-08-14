@@ -10,8 +10,8 @@ using VolunteerAdmin.Data;
 namespace VolunteerAdmin.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    [Migration("20190813200602_initial")]
-    partial class initial
+    [Migration("20190814042006_Assignments")]
+    partial class Assignments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,23 @@ namespace VolunteerAdmin.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("VolunteerAdmin.Models.Assignment", b =>
+                {
+                    b.Property<int>("AssignmentID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OpportunityID");
+
+                    b.Property<int>("VolunteerID");
+
+                    b.HasKey("AssignmentID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("Assignment");
+                });
 
             modelBuilder.Entity("VolunteerAdmin.Models.AvailableTime", b =>
                 {
@@ -70,6 +87,25 @@ namespace VolunteerAdmin.Migrations
                     b.HasIndex("VolunteerID");
 
                     b.ToTable("License");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.Opportunity", b =>
+                {
+                    b.Property<int>("OpportunityID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CenterID");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("OpportunityDate");
+
+                    b.Property<string>("OpportunityName");
+
+                    b.HasKey("OpportunityID");
+
+                    b.ToTable("Opportunity");
                 });
 
             modelBuilder.Entity("VolunteerAdmin.Models.Skill", b =>
@@ -134,6 +170,14 @@ namespace VolunteerAdmin.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Volunteer");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.Assignment", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Volunteer")
+                        .WithMany("Assignments")
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("VolunteerAdmin.Models.AvailableTime", b =>

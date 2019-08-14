@@ -76,6 +76,28 @@ namespace VolunteerAdmin.Data
                 context.Skills.Add(s);
             }
             context.SaveChanges();
+
+            var Opportunities = new Opportunity[]
+            {
+                new Opportunity{CenterID=1, OpportunityName="Feed the homeless", Description="Serve food to the local Homeless population", OpportunityDate=DateTime.Parse("2019-10-23")},
+                new Opportunity{CenterID=2, OpportunityName="Give Blood", Description="Everyone's got it, everyone needs it", OpportunityDate=DateTime.Parse("2020-01-13")},
+            };
+            foreach(Opportunity o in Opportunities)
+            {
+                context.Opportunities.Add(o);
+            }
+            context.SaveChanges();
+
+            var Assignments = new Assignment[]
+            {
+                new Assignment{OpportunityID=1, VolunteerID=1},
+                new Assignment{OpportunityID=2, VolunteerID=2}
+            };
+            foreach(Assignment a in Assignments)
+            {
+                context.Assignments.Add(a);
+            }
+            context.SaveChanges();
         }
     }
 }

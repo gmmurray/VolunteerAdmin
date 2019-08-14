@@ -4,10 +4,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VolunteerAdmin.Migrations
 {
-    public partial class initial : Migration
+    public partial class Assignments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Opportunity",
+                columns: table => new
+                {
+                    OpportunityID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CenterID = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    OpportunityName = table.Column<string>(nullable: true),
+                    OpportunityDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Opportunity", x => x.OpportunityID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Volunteer",
                 columns: table => new
@@ -36,6 +52,26 @@ namespace VolunteerAdmin.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Volunteer", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Assignment",
+                columns: table => new
+                {
+                    AssignmentID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OpportunityID = table.Column<int>(nullable: false),
+                    VolunteerID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assignment", x => x.AssignmentID);
+                    table.ForeignKey(
+                        name: "FK_Assignment_Volunteer_VolunteerID",
+                        column: x => x.VolunteerID,
+                        principalTable: "Volunteer",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,6 +155,11 @@ namespace VolunteerAdmin.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assignment_VolunteerID",
+                table: "Assignment",
+                column: "VolunteerID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Available Time_VolunteerID",
                 table: "Available Time",
                 column: "VolunteerID");
@@ -142,6 +183,9 @@ namespace VolunteerAdmin.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Assignment");
+
+            migrationBuilder.DropTable(
                 name: "Available Time");
 
             migrationBuilder.DropTable(
@@ -149,6 +193,9 @@ namespace VolunteerAdmin.Migrations
 
             migrationBuilder.DropTable(
                 name: "License");
+
+            migrationBuilder.DropTable(
+                name: "Opportunity");
 
             migrationBuilder.DropTable(
                 name: "Skill");
