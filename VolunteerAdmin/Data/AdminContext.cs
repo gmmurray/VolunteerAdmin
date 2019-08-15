@@ -20,6 +20,8 @@ namespace VolunteerAdmin.Data
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<VolunteerSkill> VolunteerSkills { get; set; }
+        public DbSet<OppReqSkill> OppReqSkills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +32,8 @@ namespace VolunteerAdmin.Data
             modelBuilder.Entity<Skill>().ToTable("Skill");
             modelBuilder.Entity<Opportunity>().ToTable("Opportunity");
             modelBuilder.Entity<Assignment>().ToTable("Assignment");
+            modelBuilder.Entity<OppReqSkill>().ToTable("OppReqSkill");
+            modelBuilder.Entity<VolunteerSkill>().ToTable("VolunteerSkill");
         }
     }
 }

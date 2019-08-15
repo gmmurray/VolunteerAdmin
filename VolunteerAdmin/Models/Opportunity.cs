@@ -14,6 +14,9 @@ namespace VolunteerAdmin.Models
         public string OpportunityName { get; set; }
         public DateTime OpportunityDate { get; set; }
 
+        public ICollection<Assignment> Assignments { get; set; }
+        public ICollection<OppReqSkill> OppReqSkills { get; set; }
+
         //We can put a nullable list or icollection here for required skills,
         //didn't want to make things too complicated yet.
     }

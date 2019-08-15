@@ -26,7 +26,7 @@ namespace VolunteerAdmin.Models
 
         public ICollection<License> Licenses { get; set; }
         public ICollection<Center> Centers { get; set; }
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<VolunteerSkill> VolunteerSkills { get; set; }
         public ICollection<AvailableTime> AvailableTimes { get; set; }
         public ICollection<Assignment> Assignments { get; set; }
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using VolunteerAdmin.Data;
 using VolunteerAdmin.Models;
 
@@ -44,9 +45,83 @@ namespace VolunteerAdmin.Controllers
         }
 
         // GET: Assignments/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            return View();
+            var Opportunity = await _context.Opportunities
+                .Include(o => o.OppReqSkills)
+                .ThenInclude(os => os.Skill)
+                .FirstOrDefaultAsync(o => o.OpportunityID == id);
+
+            var testVolunteers = _context.Volunteers
+                .Include(tv => tv.VolunteerSkills)
+                .ThenInclude(vs => vs.Skill);
+                
+                
+
+            List<int> OppSkill = new List<int>();
+
+            foreach(OppReqSkill ors in Opportunity.OppReqSkills)
+            {
+                OppSkill.Add(ors.SkillID);
+            };
+
+            List<Volunteer> Evolunteer = new List<Volunteer>();
+
+            //I can't believe I figured this out. Praise me.
+            foreach(Volunteer v in testVolunteers)
+            {
+                foreach(VolunteerSkill vs in v.VolunteerSkills)
+                {
+                    foreach(int skillID in OppSkill)
+                    {
+                        if (skillID.Equals(vs.SkillID))
+                        {
+                            Evolunteer.Add(v);
+                        }
+                    }
+                }
+            }
+            //int SearchSkill = OppSkill.First();
+
+            //string four = "";
+            //List<string> testList = new List<string>();
+            //testList.Add("4");
+
+            //bool test = testList.Any(four.Equals);
+
+            //var Evolenteers = from v in _context.Volunteers select v;
+
+           
+            //Evolenteers = Evolenteers.Where(v => v.VolunteerSkills.Any(vs => vs.SkillID.Equals(SearchSkill)));
+
+           
+
+            //Volunteer[] Volunteer = new Volunteer[10];
+            //Volunteer = Evolenteers.ToArray();
+            //if(OppSkill?.Length > 0)
+            //{
+            //    volunteers = Volunteers.Where(v => v. )
+            //}
+
+
+            //var OppSkill = Opportunity.OppReqSkills;
+
+            // var volunteers = from v in _context.Volunteers select v;
+
+            //if (OppSkill.Any())
+            //{
+            //    volunteers = volunteers
+            //}
+
+            //^ A green sea of dead ideas.
+
+            ViewData["OpportunityName"] = Opportunity.OpportunityName;
+
+            //ViewData["QualifiedVolunteers"] = Evolunteer;
+
+            
+
+            return View(Evolunteer);
         }
 
         // POST: Assignments/Create

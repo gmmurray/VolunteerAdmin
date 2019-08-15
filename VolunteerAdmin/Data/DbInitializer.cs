@@ -69,7 +69,9 @@ namespace VolunteerAdmin.Data
             {
                 new Skill{SkillName="Leadership"},
                 new Skill{SkillName="Organization"},
-                new Skill{SkillName="Positivity"}
+                new Skill{SkillName="Positivity"},
+                new Skill{SkillName="Cooking"},
+                new Skill{SkillName="Nursing"}
             };
             foreach (Skill s in skills)
             {
@@ -96,6 +98,28 @@ namespace VolunteerAdmin.Data
             foreach(Assignment a in Assignments)
             {
                 context.Assignments.Add(a);
+            }
+            context.SaveChanges();
+
+            var VolunteerSkills = new VolunteerSkill[]
+            {
+                new VolunteerSkill{SkillID=4, VolunteerID=1},
+                new VolunteerSkill{SkillID=5, VolunteerID=2}
+            };
+            foreach(VolunteerSkill vs in VolunteerSkills)
+            {
+                context.VolunteerSkills.Add(vs);
+            }
+            context.SaveChanges();
+
+            var OppRegSkills = new OppReqSkill[]
+            {
+                new OppReqSkill{SkillID=4, OpportunityID=1},
+                new OppReqSkill{SkillID=5, OpportunityID=2}
+            };
+            foreach(OppReqSkill ors in OppRegSkills)
+            {
+                context.OppReqSkills.Add(ors);
             }
             context.SaveChanges();
         }
