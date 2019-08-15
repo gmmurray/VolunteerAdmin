@@ -45,7 +45,7 @@ namespace VolunteerAdmin.Controllers
         }
 
         // GET: Assignments/Create
-        public async Task<IActionResult> Create(int? id)
+        public async Task<IActionResult> Create(int id)
         {
             var Opportunity = await _context.Opportunities
                 .Include(o => o.OppReqSkills)
@@ -116,12 +116,20 @@ namespace VolunteerAdmin.Controllers
             //^ A green sea of dead ideas.
 
             ViewData["OpportunityName"] = Opportunity.OpportunityName;
+            ViewData["OpportunityID"] = Opportunity;
 
+            var AssignmentInfo = new AssignmentOpportunityViewModel
+            {
+                Volunteers = Evolunteer.ToList(),
+               // Assignment = new Assignment { AssignmentID = id},
+                Opportunity = new Opportunity { OpportunityID = id}
+                
+            };
             //ViewData["QualifiedVolunteers"] = Evolunteer;
 
             
 
-            return View(Evolunteer);
+            return View(AssignmentInfo);
         }
 
         // POST: Assignments/Create

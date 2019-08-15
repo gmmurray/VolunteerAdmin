@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VolunteerAdmin.Models.Volunteer>
+﻿@model VolunteerAdmin.Models.AssignmentOpportunityViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,9 +13,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                @*<label asp-for="OpportunityID" class="control-label"></label>
-                <input asp-for="OpportunityID" class="form-control" value="@ViewData["OpportunityID"]" />
-                <span asp-validation-for="OpportunityID" class="text-danger"></span>*@
+                <label asp-for="@Model.Opportunity.OpportunityID" class="control-label"></label>
+                <input asp-for="@Model.Opportunity.OpportunityID" class="form-control" value="@Model.Opportunity.OpportunityID" name="OpportunityID" />
+                <span asp-validation-for="@Model.Opportunity.OpportunityID" class="text-danger"></span>
                 <p>Eligable Volunteers for "@ViewData["OpportunityName"]"</p>
             </div>
             <div class="form-group">
@@ -37,7 +37,7 @@
                                </tr>
                            </thead>
                            <tbody>
-                               @foreach(Volunteer v in Model)
+                               @foreach(Volunteer v in Model.Volunteers)
                                {
                                    <tr>
                                        <td>
@@ -58,7 +58,7 @@
                                        <td>
                                            <div class="form-group">
                                                <label asp-for="@v.ID" class="control-label"></label>
-                                               <input asp-for="@v.ID" class="form-control" />
+                                               <input asp-for="@v.ID" class="form-control" name="VolunteerID" />
                                                <span asp-validation-for="@v.ID" class="text-danger"></span>
                                            </div>
                                            <div class="form-group">
