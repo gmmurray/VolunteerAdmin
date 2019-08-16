@@ -81,39 +81,7 @@ namespace VolunteerAdmin.Controllers
                     }
                 }
             }
-            //int SearchSkill = OppSkill.First();
 
-            //string four = "";
-            //List<string> testList = new List<string>();
-            //testList.Add("4");
-
-            //bool test = testList.Any(four.Equals);
-
-            //var Evolenteers = from v in _context.Volunteers select v;
-
-           
-            //Evolenteers = Evolenteers.Where(v => v.VolunteerSkills.Any(vs => vs.SkillID.Equals(SearchSkill)));
-
-           
-
-            //Volunteer[] Volunteer = new Volunteer[10];
-            //Volunteer = Evolenteers.ToArray();
-            //if(OppSkill?.Length > 0)
-            //{
-            //    volunteers = Volunteers.Where(v => v. )
-            //}
-
-
-            //var OppSkill = Opportunity.OppReqSkills;
-
-            // var volunteers = from v in _context.Volunteers select v;
-
-            //if (OppSkill.Any())
-            //{
-            //    volunteers = volunteers
-            //}
-
-            //^ A green sea of dead ideas.
 
             ViewData["OpportunityName"] = Opportunity.OpportunityName;
             ViewData["OpportunityID"] = Opportunity;
@@ -121,13 +89,9 @@ namespace VolunteerAdmin.Controllers
             var AssignmentInfo = new AssignmentOpportunityViewModel
             {
                 Volunteers = Evolunteer.ToList(),
-               // Assignment = new Assignment { AssignmentID = id},
                 Opportunity = new Opportunity { OpportunityID = id}
                 
             };
-            //ViewData["QualifiedVolunteers"] = Evolunteer;
-
-            
 
             return View(AssignmentInfo);
         }
