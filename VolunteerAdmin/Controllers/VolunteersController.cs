@@ -60,7 +60,6 @@ namespace VolunteerAdmin.Controllers
             }
 
             var volunteer = await _context.Volunteers
-                .Include(v => v.AvailableTimes)
                 .Include(v => v.Assignments)
                 .ThenInclude(a => a.Opportunity)
                 .AsNoTracking()

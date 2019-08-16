@@ -11,9 +11,8 @@ namespace VolunteerAdmin.Controllers
     public class HomeController : Controller
     {
         public IActionResult Index()
-        {
-            return RedirectToAction("Index", "Volunteers");
-            //return View();
+        {           
+            return View();
         }
 
         public IActionResult Privacy()
@@ -25,6 +24,16 @@ namespace VolunteerAdmin.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Volunteers()
+        {
+            return RedirectToAction("Index", "Volunteers");
+        }
+
+        public IActionResult Opportunities()
+        {
+            return RedirectToAction("Index", "Opportunities");
         }
     }
 }
