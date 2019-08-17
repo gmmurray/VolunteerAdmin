@@ -14,10 +14,10 @@ namespace VolunteerAdmin.Data
         }
 
         public DbSet<Volunteer> Volunteers { get; set; }
-        //public DbSet<AvailableTime> AvailableTimes { get; set; }
-        //public DbSet<Center> Centers { get; set; }
-        //public DbSet<License> Licenses { get; set; }
-        //public DbSet<Skill> Skills { get; set; }
+        public DbSet<AvailableTime> AvailableTimes { get; set; }
+        public DbSet<Center> Centers { get; set; }
+        public DbSet<License> Licenses { get; set; }
+        public DbSet<Skill> Skills { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<VolunteerSkill> VolunteerSkills { get; set; }
@@ -26,10 +26,10 @@ namespace VolunteerAdmin.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Volunteer>().ToTable("Volunteer");
-            //modelBuilder.Entity<AvailableTime>().ToTable("Available Time");
-            //modelBuilder.Entity<Center>().ToTable("Center");
-            //modelBuilder.Entity<License>().ToTable("License");
-            //modelBuilder.Entity<Skill>().ToTable("Skill");
+            modelBuilder.Entity<AvailableTime>().ToTable("Available Time");
+            modelBuilder.Entity<Center>().ToTable("Center");
+            modelBuilder.Entity<License>().ToTable("License");
+            modelBuilder.Entity<Skill>().ToTable("Skill");
             modelBuilder.Entity<Opportunity>().ToTable("Opportunity");
             modelBuilder.Entity<Assignment>().ToTable("Assignment");
             modelBuilder.Entity<OppReqSkill>().ToTable("OppReqSkill");
