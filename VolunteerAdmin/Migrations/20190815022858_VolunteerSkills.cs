@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VolunteerAdmin.Migrations
 {
-    public partial class Assignments : Migration
+    public partial class VolunteerSkills : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,6 +22,19 @@ namespace VolunteerAdmin.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Opportunity", x => x.OpportunityID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skill",
+                columns: table => new
+                {
+                    SkillID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SkillName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skill", x => x.SkillID);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,6 +68,32 @@ namespace VolunteerAdmin.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OppReqSkill",
+                columns: table => new
+                {
+                    OppReqSkillID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OpportunityID = table.Column<int>(nullable: false),
+                    SkillID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OppReqSkill", x => x.OppReqSkillID);
+                    table.ForeignKey(
+                        name: "FK_OppReqSkill_Opportunity_OpportunityID",
+                        column: x => x.OpportunityID,
+                        principalTable: "Opportunity",
+                        principalColumn: "OpportunityID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OppReqSkill_Skill_SkillID",
+                        column: x => x.SkillID,
+                        principalTable: "Skill",
+                        principalColumn: "SkillID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Assignment",
                 columns: table => new
                 {
@@ -66,6 +105,12 @@ namespace VolunteerAdmin.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assignment", x => x.AssignmentID);
+                    table.ForeignKey(
+                        name: "FK_Assignment_Opportunity_OpportunityID",
+                        column: x => x.OpportunityID,
+                        principalTable: "Opportunity",
+                        principalColumn: "OpportunityID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Assignment_Volunteer_VolunteerID",
                         column: x => x.VolunteerID,
@@ -135,24 +180,35 @@ namespace VolunteerAdmin.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Skill",
+                name: "VolunteerSkill",
                 columns: table => new
                 {
-                    SkillID = table.Column<int>(nullable: false)
+                    VolunteerSkillID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SkillName = table.Column<string>(nullable: true),
-                    VolunteerID = table.Column<int>(nullable: true)
+                    SkillID = table.Column<int>(nullable: false),
+                    VolunteerID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skill", x => x.SkillID);
+                    table.PrimaryKey("PK_VolunteerSkill", x => x.VolunteerSkillID);
                     table.ForeignKey(
-                        name: "FK_Skill_Volunteer_VolunteerID",
+                        name: "FK_VolunteerSkill_Skill_SkillID",
+                        column: x => x.SkillID,
+                        principalTable: "Skill",
+                        principalColumn: "SkillID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VolunteerSkill_Volunteer_VolunteerID",
                         column: x => x.VolunteerID,
                         principalTable: "Volunteer",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assignment_OpportunityID",
+                table: "Assignment",
+                column: "OpportunityID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assignment_VolunteerID",
@@ -175,8 +231,23 @@ namespace VolunteerAdmin.Migrations
                 column: "VolunteerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skill_VolunteerID",
-                table: "Skill",
+                name: "IX_OppReqSkill_OpportunityID",
+                table: "OppReqSkill",
+                column: "OpportunityID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OppReqSkill_SkillID",
+                table: "OppReqSkill",
+                column: "SkillID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VolunteerSkill_SkillID",
+                table: "VolunteerSkill",
+                column: "SkillID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VolunteerSkill_VolunteerID",
+                table: "VolunteerSkill",
                 column: "VolunteerID");
         }
 
@@ -193,6 +264,12 @@ namespace VolunteerAdmin.Migrations
 
             migrationBuilder.DropTable(
                 name: "License");
+
+            migrationBuilder.DropTable(
+                name: "OppReqSkill");
+
+            migrationBuilder.DropTable(
+                name: "VolunteerSkill");
 
             migrationBuilder.DropTable(
                 name: "Opportunity");

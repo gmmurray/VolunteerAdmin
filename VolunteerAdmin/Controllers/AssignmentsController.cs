@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using VolunteerAdmin.Data;
 using VolunteerAdmin.Models;
 
@@ -44,9 +45,55 @@ namespace VolunteerAdmin.Controllers
         }
 
         // GET: Assignments/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int id)
         {
-            return View();
+            var Opportunity = await _context.Opportunities
+                .Include(o => o.OppReqSkills)
+                .ThenInclude(os => os.Skill)
+                .FirstOrDefaultAsync(o => o.OpportunityID == id);
+
+            var testVolunteers = _context.Volunteers
+                .Include(tv => tv.VolunteerSkills)
+                .ThenInclude(vs => vs.Skill);
+                
+                
+
+            List<int> OppSkill = new List<int>();
+
+            foreach(OppReqSkill ors in Opportunity.OppReqSkills)
+            {
+                OppSkill.Add(ors.SkillID);
+            };
+
+            List<Volunteer> Evolunteer = new List<Volunteer>();
+
+            //I can't believe I figured this out. Praise me.
+            foreach(Volunteer v in testVolunteers)
+            {
+                foreach(VolunteerSkill vs in v.VolunteerSkills)
+                {
+                    foreach(int skillID in OppSkill)
+                    {
+                        if (skillID.Equals(vs.SkillID))
+                        {
+                            Evolunteer.Add(v);
+                        }
+                    }
+                }
+            }
+
+
+            ViewData["OpportunityName"] = Opportunity.OpportunityName;
+            ViewData["OpportunityID"] = Opportunity;
+
+            var AssignmentInfo = new AssignmentOpportunityViewModel
+            {
+                Volunteers = Evolunteer.ToList(),
+                Opportunity = new Opportunity { OpportunityID = id}
+                
+            };
+
+            return View(AssignmentInfo);
         }
 
         // POST: Assignments/Create

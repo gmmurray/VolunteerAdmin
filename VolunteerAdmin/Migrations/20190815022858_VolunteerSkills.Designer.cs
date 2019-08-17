@@ -10,8 +10,8 @@ using VolunteerAdmin.Data;
 namespace VolunteerAdmin.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    [Migration("20190814042006_Assignments")]
-    partial class Assignments
+    [Migration("20190815022858_VolunteerSkills")]
+    partial class VolunteerSkills
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,8 @@ namespace VolunteerAdmin.Migrations
                     b.Property<int>("VolunteerID");
 
                     b.HasKey("AssignmentID");
+
+                    b.HasIndex("OpportunityID");
 
                     b.HasIndex("VolunteerID");
 
@@ -89,6 +91,25 @@ namespace VolunteerAdmin.Migrations
                     b.ToTable("License");
                 });
 
+            modelBuilder.Entity("VolunteerAdmin.Models.OppReqSkill", b =>
+                {
+                    b.Property<int>("OppReqSkillID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OpportunityID");
+
+                    b.Property<int>("SkillID");
+
+                    b.HasKey("OppReqSkillID");
+
+                    b.HasIndex("OpportunityID");
+
+                    b.HasIndex("SkillID");
+
+                    b.ToTable("OppReqSkill");
+                });
+
             modelBuilder.Entity("VolunteerAdmin.Models.Opportunity", b =>
                 {
                     b.Property<int>("OpportunityID")
@@ -116,11 +137,7 @@ namespace VolunteerAdmin.Migrations
 
                     b.Property<string>("SkillName");
 
-                    b.Property<int?>("VolunteerID");
-
                     b.HasKey("SkillID");
-
-                    b.HasIndex("VolunteerID");
 
                     b.ToTable("Skill");
                 });
@@ -172,9 +189,33 @@ namespace VolunteerAdmin.Migrations
                     b.ToTable("Volunteer");
                 });
 
+            modelBuilder.Entity("VolunteerAdmin.Models.VolunteerSkill", b =>
+                {
+                    b.Property<int>("VolunteerSkillID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("SkillID");
+
+                    b.Property<int>("VolunteerID");
+
+                    b.HasKey("VolunteerSkillID");
+
+                    b.HasIndex("SkillID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("VolunteerSkill");
+                });
+
             modelBuilder.Entity("VolunteerAdmin.Models.Assignment", b =>
                 {
-                    b.HasOne("VolunteerAdmin.Models.Volunteer")
+                    b.HasOne("VolunteerAdmin.Models.Opportunity", "Opportunity")
+                        .WithMany("Assignments")
+                        .HasForeignKey("OpportunityID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VolunteerAdmin.Models.Volunteer", "Volunteer")
                         .WithMany("Assignments")
                         .HasForeignKey("VolunteerID")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -201,11 +242,30 @@ namespace VolunteerAdmin.Migrations
                         .HasForeignKey("VolunteerID");
                 });
 
-            modelBuilder.Entity("VolunteerAdmin.Models.Skill", b =>
+            modelBuilder.Entity("VolunteerAdmin.Models.OppReqSkill", b =>
                 {
-                    b.HasOne("VolunteerAdmin.Models.Volunteer")
-                        .WithMany("Skills")
-                        .HasForeignKey("VolunteerID");
+                    b.HasOne("VolunteerAdmin.Models.Opportunity", "Opportunity")
+                        .WithMany("OppReqSkills")
+                        .HasForeignKey("OpportunityID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VolunteerAdmin.Models.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.VolunteerSkill", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VolunteerAdmin.Models.Volunteer", "Volunteer")
+                        .WithMany("VolunteerSkills")
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

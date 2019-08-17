@@ -38,6 +38,76 @@ namespace VolunteerAdmin.Migrations
                     b.ToTable("Assignment");
                 });
 
+            modelBuilder.Entity("VolunteerAdmin.Models.AvailableTime", b =>
+                {
+                    b.Property<int>("AvailableTimeID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<int?>("VolunteerID");
+
+                    b.HasKey("AvailableTimeID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("Available Time");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.Center", b =>
+                {
+                    b.Property<int>("CenterID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CenterName");
+
+                    b.Property<int?>("VolunteerID");
+
+                    b.HasKey("CenterID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("Center");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.License", b =>
+                {
+                    b.Property<int>("LicenseID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LicenseName");
+
+                    b.Property<int?>("VolunteerID");
+
+                    b.HasKey("LicenseID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("License");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.OppReqSkill", b =>
+                {
+                    b.Property<int>("OppReqSkillID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OpportunityID");
+
+                    b.Property<int>("SkillID");
+
+                    b.HasKey("OppReqSkillID");
+
+                    b.HasIndex("OpportunityID");
+
+                    b.HasIndex("SkillID");
+
+                    b.ToTable("OppReqSkill");
+                });
+
             modelBuilder.Entity("VolunteerAdmin.Models.Opportunity", b =>
                 {
                     b.Property<int>("OpportunityID")
@@ -57,6 +127,19 @@ namespace VolunteerAdmin.Migrations
                     b.ToTable("Opportunity");
                 });
 
+            modelBuilder.Entity("VolunteerAdmin.Models.Skill", b =>
+                {
+                    b.Property<int>("SkillID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("SkillName");
+
+                    b.HasKey("SkillID");
+
+                    b.ToTable("Skill");
+                });
+
             modelBuilder.Entity("VolunteerAdmin.Models.Volunteer", b =>
                 {
                     b.Property<int>("ID")
@@ -67,11 +150,7 @@ namespace VolunteerAdmin.Migrations
 
                     b.Property<bool?>("Approved");
 
-                    b.Property<string>("AvailableTimes");
-
                     b.Property<string>("CellPhone");
-
-                    b.Property<string>("Centers");
 
                     b.Property<bool>("DLCopyOnFile");
 
@@ -95,13 +174,9 @@ namespace VolunteerAdmin.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Licenses");
-
                     b.Property<string>("Password");
 
                     b.Property<bool>("SSCopyOnFile");
-
-                    b.Property<string>("Skills");
 
                     b.Property<string>("Username");
 
@@ -112,15 +187,81 @@ namespace VolunteerAdmin.Migrations
                     b.ToTable("Volunteer");
                 });
 
+            modelBuilder.Entity("VolunteerAdmin.Models.VolunteerSkill", b =>
+                {
+                    b.Property<int>("VolunteerSkillID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("SkillID");
+
+                    b.Property<int>("VolunteerID");
+
+                    b.HasKey("VolunteerSkillID");
+
+                    b.HasIndex("SkillID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("VolunteerSkill");
+                });
+
             modelBuilder.Entity("VolunteerAdmin.Models.Assignment", b =>
                 {
                     b.HasOne("VolunteerAdmin.Models.Opportunity", "Opportunity")
-                        .WithMany()
+                        .WithMany("Assignments")
                         .HasForeignKey("OpportunityID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VolunteerAdmin.Models.Volunteer", "Volunteer")
                         .WithMany("Assignments")
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.AvailableTime", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Volunteer")
+                        .WithMany("AvailableTimes")
+                        .HasForeignKey("VolunteerID");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.Center", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Volunteer")
+                        .WithMany("Centers")
+                        .HasForeignKey("VolunteerID");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.License", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Volunteer")
+                        .WithMany("Licenses")
+                        .HasForeignKey("VolunteerID");
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.OppReqSkill", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Opportunity", "Opportunity")
+                        .WithMany("OppReqSkills")
+                        .HasForeignKey("OpportunityID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VolunteerAdmin.Models.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VolunteerAdmin.Models.VolunteerSkill", b =>
+                {
+                    b.HasOne("VolunteerAdmin.Models.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VolunteerAdmin.Models.Volunteer", "Volunteer")
+                        .WithMany("VolunteerSkills")
                         .HasForeignKey("VolunteerID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

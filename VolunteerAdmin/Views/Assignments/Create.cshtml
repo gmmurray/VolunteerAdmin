@@ -1,4 +1,4 @@
-﻿@model VolunteerAdmin.Models.Assignment
+﻿@model VolunteerAdmin.Models.AssignmentOpportunityViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,18 +13,72 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="OpportunityID" class="control-label"></label>
-                <input asp-for="OpportunityID" class="form-control" />
-                <span asp-validation-for="OpportunityID" class="text-danger"></span>
+                <label asp-for="@Model.Opportunity.OpportunityID" class="control-label"></label>
+                <input asp-for="@Model.Opportunity.OpportunityID" class="form-control" value="@Model.Opportunity.OpportunityID" name="OpportunityID" />
+                <span asp-validation-for="@Model.Opportunity.OpportunityID" class="text-danger"></span>
+                <p>Eligable Volunteers for "@ViewData["OpportunityName"]"</p>
             </div>
             <div class="form-group">
-                <label asp-for="VolunteerID" class="control-label"></label>
-                <input asp-for="VolunteerID" class="form-control" />
-                <span asp-validation-for="VolunteerID" class="text-danger"></span>
+                       <table class="table">
+                           <thead>
+                               <tr>
+                                   <th>
+                                       <h5>First Name</h5>
+                                   </th>
+                                   <th>
+                                       <h5>Last Name</h5>
+                                   </th>
+                                   <th>
+                                       <h5>Skills</h5>
+                                   </th>
+                                   <th>
+                                       <h5>ID</h5>
+                                   </th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               @foreach(Volunteer v in Model.Volunteers)
+                               {
+                                   <tr>
+                                       <td>
+                                           @v.FirstName
+                                       </td>
+                                       <td>
+                                           @v.LastName
+                                       </td>
+                                       <td>
+                                           @foreach (VolunteerSkill vs in v.VolunteerSkills)
+                                           {
+                                               @vs.Skill.SkillName
+                                           }
+                                       </td>
+                                       <td>
+                                           @v.ID
+                                       </td>
+                                    
+                                   </tr>
+                               }
+                                  <td>
+                                           <div class="form-group">
+                                               <label asp-for="@Model.Volunteers.FirstOrDefault().ID"  class="control-label"></label>
+                                               <input  class="form-control" name="VolunteerID" />
+                                               <span  class="text-danger"></span>
+                                           </div>
+                                           <div class="form-group">
+                                               <input type="submit" value="Create" class="btn btn-primary" />
+                                           </div>
+                                       </td>
+                           </tbody>
+                       </table>
+            </div>
+           @**<div class="form-group">
+                <label asp-for="ID" class="control-label"></label>
+                <input asp-for="ID" class="form-control" />
+                <span asp-validation-for="ID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            </div>*@
         </form>
     </div>
 </div>

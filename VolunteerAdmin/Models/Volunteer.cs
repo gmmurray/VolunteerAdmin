@@ -51,15 +51,10 @@ namespace VolunteerAdmin.Models
         [Display(Name = "Approval Status")]
         public bool? Approved { get; set; }
 
-        public string Licenses { get; set; }
-        public string Centers { get; set; }
-        public string Skills { get; set; }
-        public string AvailableTimes { get; set; }
-        
-        //public ICollection<License> Licenses { get; set; }
-        //public ICollection<Center> Centers { get; set; }
-        //public ICollection<Skill> Skills { get; set; }
-        //public ICollection<AvailableTime> AvailableTimes { get; set; }
+        public ICollection<License> Licenses { get; set; }
+        public ICollection<Center> Centers { get; set; }
+        public ICollection<VolunteerSkill> VolunteerSkills { get; set; }
+        public ICollection<AvailableTime> AvailableTimes { get; set; }
         public ICollection<Assignment> Assignments { get; set; }
 
 

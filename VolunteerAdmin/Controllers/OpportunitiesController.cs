@@ -34,6 +34,8 @@ namespace VolunteerAdmin.Controllers
             }
 
             var opportunity = await _context.Opportunities
+                .Include(o => o.Assignments)
+                  .ThenInclude(v => v.Volunteer)
                 .FirstOrDefaultAsync(m => m.OpportunityID == id);
             if (opportunity == null)
             {
