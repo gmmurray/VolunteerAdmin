@@ -44,7 +44,11 @@ namespace VolunteerAdmin.Controllers
             bool filterBool = filter == "Approved";
             if (!String.IsNullOrEmpty(filter))
             {
-                volunteers = volunteers.Where(v => v.Approved==filterBool);
+                volunteers = volunteers.Where(v => v.Approved == filterBool);
+            }
+            else
+            {
+                volunteers = volunteers.Where(v => v.Approved == null);
             }
 
 

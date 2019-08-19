@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<VolunteerAdmin.Models.Volunteer>
-
+@using VolunteerAdmin.Models;
 
 @{
     ViewData["Title"] = "Index";
@@ -16,9 +16,11 @@
         <p>
             Filter by approval status:
             <select name="filter">
+
                 <option selected="" disabled="disabled">Select</option>
-                <option value="Approved">Approved</option>
-                <option value="Disapproved">Disapproved</option>
+                <option value="true">Approved</option>
+                <option value="false">Disapproved</option>
+                <option value="">Pending</option>
             </select>
             <input type="submit" value="Search" class="btn btn-primary" />
             <a asp-action="Index">Back to Full List</a>
