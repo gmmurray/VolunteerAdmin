@@ -23,6 +23,7 @@ namespace VolunteerAdmin.Controllers
         public async Task<IActionResult> Index(string filter)
         {
             var volunteers = from s in _context.Volunteers select s;
+
             //a.	Approved/Pending Approval (volunteers in both approval statuses are included)
             //            b.Approved
             //c.Pending Approval
@@ -42,6 +43,14 @@ namespace VolunteerAdmin.Controllers
             //if (filter != null)
             //    return View("Delete");
             bool filterBool = filter == "Approved";
+
+            //This was an attempt to display the assignment for each volunteer onto the index page.
+            var volunteerAssignment = await _context.Volunteers
+                .Include(v => v.Assignments)
+                .ThenInclude(a => a.Opportunity)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(n => n.Approved == filterBool);
+
             if (!String.IsNullOrEmpty(filter))
             {
                 volunteers = volunteers.Where(v => v.Approved==filterBool);
