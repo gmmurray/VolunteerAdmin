@@ -41,15 +41,27 @@ namespace VolunteerAdmin.Controllers
             //}
             //if (filter != null)
             //    return View("Delete");
-            bool filterBool = filter == "Approved";
+           bool? filterBool;
+
+            if(filter == "Approved")
+            {
+                filterBool = true;
+            } else if(filter == "Disapproved")
+            {
+                filterBool = false;
+            } else
+            {
+                filterBool = null;
+            }
+
             if (!String.IsNullOrEmpty(filter))
             {
                 volunteers = volunteers.Where(v => v.Approved == filterBool);
             }
-            else
-            {
-                volunteers = volunteers.Where(v => v.Approved == null);
-            }
+            //else if(filter == "Pending")
+            //{
+            //    volunteers = volunteers.Where(v => v.Approved.Equals(null));
+            //}
 
 
             return View(await volunteers.ToListAsync());
