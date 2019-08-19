@@ -25,15 +25,5 @@ namespace VolunteerAdmin.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public IActionResult Volunteers()
-        {
-            return RedirectToAction("Index", "Volunteers");
-        }
-
-        public IActionResult Opportunities()
-        {
-            return RedirectToAction("Index", "Opportunities");
-        }
     }
 }

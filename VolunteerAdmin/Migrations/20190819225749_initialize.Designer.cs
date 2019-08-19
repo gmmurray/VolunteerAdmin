@@ -10,8 +10,8 @@ using VolunteerAdmin.Data;
 namespace VolunteerAdmin.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    [Migration("20190815022858_VolunteerSkills")]
-    partial class VolunteerSkills
+    [Migration("20190819225749_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
