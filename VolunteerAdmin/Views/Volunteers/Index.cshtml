@@ -19,6 +19,19 @@
         </p>
     </div>
 </form>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions">
+        <p>
+            Filter by approval status: <select name="filter">
+            <option selected="true" disabled="disabled">Select</option>
+            <option value="Approved">Approved</option>
+            <option value="Disapproved">Disapproved</option>
+</select>
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </p>
+    </div>
+</form>
 <div class="table-responsive">
     <table class="table table-bordered">
         <thead class="thead-light">
