@@ -42,19 +42,27 @@ namespace VolunteerAdmin.Controllers
             //}
             //if (filter != null)
             //    return View("Delete");
-            bool filterBool = filter == "Approved";
+           bool? filterBool;
 
-            //This was an attempt to display the assignment for each volunteer onto the index page.
-            var volunteerAssignment = await _context.Volunteers
-                .Include(v => v.Assignments)
-                .ThenInclude(a => a.Opportunity)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(n => n.Approved == filterBool);
+            if(filter == "Approved")
+            {
+                filterBool = true;
+            } else if(filter == "Disapproved")
+            {
+                filterBool = false;
+            } else
+            {
+                filterBool = null;
+            }
 
             if (!String.IsNullOrEmpty(filter))
             {
-                volunteers = volunteers.Where(v => v.Approved==filterBool);
+                volunteers = volunteers.Where(v => v.Approved == filterBool);
             }
+            //else if(filter == "Pending")
+            //{
+            //    volunteers = volunteers.Where(v => v.Approved.Equals(null));
+            //}
 
 
             return View(await volunteers.ToListAsync());

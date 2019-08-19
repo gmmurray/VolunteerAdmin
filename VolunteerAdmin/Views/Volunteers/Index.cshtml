@@ -10,11 +10,19 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <form asp-action="Index" method="get">
     <div class="form-actions">
         <p>
-            Filter by approval status <input type="text" name="filter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
+            Filter by approval status:
+            <select name="filter">
+
+                <option selected="" disabled="disabled">Select</option>
+                <option value="Approved">Approved</option>
+                <option value="Disapproved">Disapproved</option>
+                <option value="Pending">Pending</option>
+            </select>
+            <input type="submit" value="Search" class="btn btn-primary" />
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
